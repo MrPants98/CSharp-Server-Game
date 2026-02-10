@@ -10,7 +10,7 @@ public class WebsocketServer
     private readonly ConcurrentDictionary<Guid, WebSocket> _connectedClients = new();
     
     private readonly HttpListener _listener = new();
-    private CancellationTokenSource _cts = new();
+    private readonly CancellationTokenSource _cts = new();
 
     public async Task InitWebsocketServer(string ip, int port) {
         if (!HttpListener.IsSupported) {
@@ -75,7 +75,7 @@ public class WebsocketServer
             {
                 _connectedClients.TryRemove(clientId, out _);
 
-                if (socket.State == WebSocketState.Open || socket.State == WebSocketState.CloseReceived)
+                if (socket.State is WebSocketState.Open or WebSocketState.CloseReceived)
                     await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Disconnect", CancellationToken.None);
                 
                 socket.Dispose();
@@ -97,11 +97,8 @@ public class WebsocketServer
                 result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 fullPacket.AddRange(buffer.Take(result.Count));
             } while (!result.EndOfMessage);
-
-            if (result.MessageType == WebSocketMessageType.Binary)
-            {
-                
-            }
+            
+            PacketHandler.ReceivePacket(fullPacket.ToArray());
             
             await socket.SendAsync(new ArraySegment<byte>(fullPacket.ToArray()), WebSocketMessageType.Text, true, CancellationToken.None);
             

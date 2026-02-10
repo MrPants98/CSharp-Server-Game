@@ -4,19 +4,26 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-        var server = new WebsocketServer();
-        
-        server.InitWebsocketServer("localhost", 8080);
-        
-        do
+        if (args is ["--client", ..])
         {
-            var line = Console.ReadLine();
-            if (line != "stop") 
-                continue;
+            var client = new Client();
+            client.StartClient();
+        }
+        else
+        {
+            var server = new WebsocketServer();
+        
+            server.InitWebsocketServer("localhost", 8080);
+        
+            do
+            {
+                var line = Console.ReadLine();
+                if (line != "stop") 
+                    continue;
             
-            server.CloseWebsocketServer();
-            break;
-        } while (true);
+                _ = server.CloseWebsocketServer();
+                break;
+            } while (true);
+        }
     }
 }
