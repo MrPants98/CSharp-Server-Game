@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.WebSockets;
 
-namespace Csharp_game_server;
+namespace Csharp_game_server.Server;
 
 public class WebsocketServer
 {

@@ -1,4 +1,7 @@
-﻿namespace Csharp_game_server;
+﻿using Csharp_game_server.Server;
+using Csharp_game_server.Client;
+
+namespace Csharp_game_server;
 
 class Program
 {
@@ -6,7 +9,7 @@ class Program
     {
         if (args is ["--client", ..])
         {
-            var client = new Client();
+            var client = new Client.Client();
             client.StartClient();
         }
         else

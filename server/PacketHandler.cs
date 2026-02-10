@@ -1,4 +1,6 @@
-﻿namespace Csharp_game_server;
+﻿using Csharp_game_server.Shared;
+
+namespace Csharp_game_server.Server;
 
 public static class PacketHandler
 {
@@ -14,7 +16,7 @@ public static class PacketHandler
         if (multiByteType) packetTypeIndex = ReadMultiByteTypePacket(buffer);
         if (packetTypeIndex == 0) return;
         
-        var packetType = (PacketType)packetTypeIndex;
+        var packetType = (ServerPacketType)packetTypeIndex;
     }
 
     private static ushort ReadMultiByteTypePacket(byte[] buffer)

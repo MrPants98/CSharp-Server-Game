@@ -1,4 +1,4 @@
-﻿namespace Csharp_game_server;
+﻿namespace Csharp_game_server.Client;
 
 public class Client
 {
